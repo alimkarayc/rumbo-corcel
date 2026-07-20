@@ -374,82 +374,88 @@ document.addEventListener("DOMContentLoaded", () => {
      ------------------------------------------------------- */
 
   function enableAction(action) {
-    if (!action) {
-      return;
-    }
-
-    action.classList.remove(
-      "is-disabled"
-    );
-
-    action.removeAttribute(
-      "aria-disabled"
-    );
-
-    action.removeAttribute(
-      "tabindex"
-    );
-
-    if (
-      action.dataset.originalHref &&
-      !action.getAttribute("href")
-    ) {
-      action.setAttribute(
-        "href",
-        action.dataset.originalHref
-      );
-    }
-
-    /*
-     * Por ahora sigue diciendo Consultar.
-     * En la próxima etapa se transformará
-     * en Agregar al carrito.
-     */
-
-    if (action.dataset.originalText) {
-      action.textContent =
-        action.dataset.originalText;
-    }
+  if (!action) {
+    return;
   }
+
+  if (
+    action.getAttribute("href") &&
+    !action.dataset.originalHref
+  ) {
+    action.dataset.originalHref =
+      action.getAttribute("href");
+  }
+
+  action.removeAttribute("href");
+
+  action.classList.remove(
+    "is-disabled"
+  );
+
+  action.classList.add(
+    "add-to-cart"
+  );
+
+  action.removeAttribute(
+    "aria-disabled"
+  );
+
+  action.setAttribute(
+    "role",
+    "button"
+  );
+
+  action.setAttribute(
+    "tabindex",
+    "0"
+  );
+
+  action.textContent =
+    "Agregar al carrito";
+}
 
 
   function disableAction(action) {
-    if (!action) {
-      return;
-    }
-
-    if (
-      action.getAttribute("href") &&
-      !action.dataset.originalHref
-    ) {
-      action.dataset.originalHref =
-        action.getAttribute("href");
-    }
-
-    if (!action.dataset.originalText) {
-      action.dataset.originalText =
-        action.textContent.trim();
-    }
-
-    action.removeAttribute("href");
-
-    action.setAttribute(
-      "aria-disabled",
-      "true"
-    );
-
-    action.setAttribute(
-      "tabindex",
-      "-1"
-    );
-
-    action.classList.add(
-      "is-disabled"
-    );
-
-    action.textContent =
-      "Sin stock";
+  if (!action) {
+    return;
   }
+
+  if (
+    action.getAttribute("href") &&
+    !action.dataset.originalHref
+  ) {
+    action.dataset.originalHref =
+      action.getAttribute("href");
+  }
+
+  action.removeAttribute("href");
+
+  action.classList.remove(
+    "add-to-cart"
+  );
+
+  action.classList.add(
+    "is-disabled"
+  );
+
+  action.setAttribute(
+    "role",
+    "button"
+  );
+
+  action.setAttribute(
+    "aria-disabled",
+    "true"
+  );
+
+  action.setAttribute(
+    "tabindex",
+    "-1"
+  );
+
+  action.textContent =
+    "Sin stock";
+}
 
 
   /* -------------------------------------------------------
@@ -633,7 +639,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const response =
         await loadInventory();
 
-      if (
+    if (
         !response ||
         response.ok !== true ||
         !Array.isArray(response.productos)
@@ -642,14 +648,25 @@ document.addEventListener("DOMContentLoaded", () => {
           "La API respondió con un formato inválido."
         );
       }
-
+      
+      window.RUMBO_INVENTORY =
+        response.productos;
+      
+      window.dispatchEvent(
+        new CustomEvent(
+          "rumbo:inventory-ready",
+          {
+            detail: response.productos
+          }
+        )
+      );
+      
       const productsBySku = new Map(
         response.productos.map(
           (product) => [
             String(product.sku)
               .trim()
               .toUpperCase(),
-
             product
           ]
         )
