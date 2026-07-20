@@ -2,12 +2,19 @@ project:
   type: website
   output-dir: docs
 
+  resources:
+    - images/**
+    - documentos/**
+    - script.js
+
 website:
   title: "Rumbo Corcel"
+  favicon: images/logo.jpeg
 
   navbar:
     background: "#22302A"
     foreground: "#F2E8D9"
+    pinned: true
 
     left:
       - href: index.qmd
@@ -20,6 +27,11 @@ website:
         text: Nosotros
 
     right:
+      - icon: whatsapp
+        href: "https://wa.me/56962590678?text=Hola%20Rumbo%20Corcel%2C%20quiero%20consultar%20por%20sus%20productos."
+        aria-label: WhatsApp
+        target: _blank
+        
       - icon: instagram
         href: https://www.instagram.com/rumbocorcel.mate
         aria-label: Instagram
@@ -44,3 +56,7 @@ format:
     css: styles.css
     toc: false
     smooth-scroll: true
+    anchor-sections: false
+
+    include-after-body:
+      - includes/after-body.html
