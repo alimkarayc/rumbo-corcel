@@ -1,0 +1,39 @@
+---
+title: "Rumbo Corcel"
+page-layout: full
+title-block-banner: false
+---
+
+::: {.hero-section}
+
+::: {.hero-overlay}
+:::
+
+::: {.hero-content}
+
+<p class="hero-eyebrow">EN CADA CAMINO</p>
+
+<h1>Está todo escrito</h1>
+
+<p class="hero-description">
+Cultura matera, tradición y diseño para acompañarte donde vayas.
+</p>
+
+::: {.hero-buttons}
+
+<a
+  href="https://wa.me/56962590678?text=Hola%20Rumbo%20Corcel%2C%20quiero%20consultar%20por%20sus%20productos."
+  class="button button-primary"
+  target="_blank">
+  Hablar por WhatsApp
+</a>
+
+<a href="#productos" class="button button-secondary">
+  Ver productos
+</a>
+
+:::
+
+:::
+
+:::

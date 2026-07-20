@@ -1,0 +1,46 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Rumbo Corcel"
+
+  navbar:
+    background: "#22302A"
+    foreground: "#F2E8D9"
+
+    left:
+      - href: index.qmd
+        text: Inicio
+
+      - href: catalogo.qmd
+        text: Catálogo
+
+      - href: nosotros.qmd
+        text: Nosotros
+
+    right:
+      - icon: instagram
+        href: https://www.instagram.com/rumbocorcel.mate
+        aria-label: Instagram
+
+      - icon: facebook
+        href: https://www.facebook.com/profile.php?id=61586241693849
+        aria-label: Facebook
+
+  page-footer:
+    background: "#22302A"
+    foreground: "#F2E8D9"
+    left: "© 2026 Rumbo Corcel"
+
+    right:
+      - text: "WhatsApp"
+        href: https://wa.me/56962590678
+
+format:
+  html:
+    lang: es
+    theme: cosmo
+    css: styles.css
+    toc: false
+    smooth-scroll: true

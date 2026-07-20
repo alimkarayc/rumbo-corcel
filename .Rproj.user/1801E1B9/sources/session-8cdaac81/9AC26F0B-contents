@@ -1,0 +1,14 @@
+:root {
+  --verde-profundo: #22302a;
+  --verde-medio: #3e5247;
+  --bronce: #c49a4a;
+  --cafe-cuero: #3a2a22;
+  --crema: #f2e8d9;
+}
+
+html,
+body {
+  margin: 0;
+  background-color: var(--cafe-cuero);
+  color: var(--crema);
+}
