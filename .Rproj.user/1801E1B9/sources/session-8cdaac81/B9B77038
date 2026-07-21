@@ -3,7 +3,7 @@
     "path": "C:/Users/camil/OneDrive/Escritorio/RUMBO/WEB/includes/after-body.html",
     "project_path": "includes/after-body.html",
     "type": "html",
-    "hash": "739866407",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1784577069303.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "1,50",
+        "cursorPosition": "4,54",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1784579255,
+    "lastKnownWriteTime": 1784610389,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1784579255388,
+    "last_content_update": 1784610389927,
     "read_only": false,
     "read_only_alternatives": []
 }

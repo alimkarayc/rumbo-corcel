@@ -7,6 +7,8 @@ project:
     - documentos/**
     - script.js
     - cart.js
+    - checkout.js
+    - checkout.css
 
 website:
   title: "Rumbo Corcel"

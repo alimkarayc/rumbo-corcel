@@ -164,7 +164,7 @@ document.addEventListener(
               class="cart-checkout"
               type="button"
               data-cart-checkout>
-              Confirmar por WhatsApp
+              Continuar al pago
             </button>
 
             <button
