@@ -5,8 +5,8 @@ document.addEventListener(
   () => {
 
     const CART_CONFIG = Object.freeze({
-      storageKey: "rumboCorcelCartV1",
-      whatsapp: "56962590678",
+      storageKey: "rumboCorcelCartV2",
+      whatsapp: "56920861795",
       currency: "CLP",
       locale: "es-CL"
     });
@@ -852,7 +852,7 @@ document.addEventListener(
       ].join("\n");
 
       const url =
-        `https://wa.me/` +
+        `https://wa.me/message/5PEO6Z2GUZLNP1` +
         `${CART_CONFIG.whatsapp}` +
         `?text=${encodeURIComponent(message)}`;
 

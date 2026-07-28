@@ -2,16 +2,45 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const CHECKOUT_CONFIG = Object.freeze({
-    apiUrl: "https://script.google.com/macros/s/AKfycbxICrnGOjEfJE6A2iIWbVIqJDsY9uWAQVCiHAWXKtjiFqksyQ6JVLGTtNjG0GbGyTMy/exec",
-    cartStorageKey: "rumboCorcelCartV1",
+    apiUrl: "https://script.google.com/macros/s/AKfycbymJY7QfvVhKrKRznUkk87mz3xA1C-kOuBtydu4N2ZL59sSdMc-MTfPV2ftLvMiUmmA/exec",
+    cartStorageKey: "rumboCorcelCartV2",
     reservationStorageKey: "rumboCorcelReservaV1",
-    requestTimeoutMs: 45000
+    requestTimeoutMs: 45000,
+
+    pickupAddress:
+      "Aranjuez Pte. 399, 8700585 Quilicura, Región Metropolitana",
+
+    pickupRegion:
+      "Región Metropolitana",
+
+    pickupCommune:
+      "Quilicura",
+
+    blueExpressTransitDays: Object.freeze({
+      "Región Metropolitana": 1,
+      "Región de Arica y Parinacota": 4,
+      "Región de Tarapacá": 3,
+      "Región de Antofagasta": 3,
+      "Región de Atacama": 2,
+      "Región de Coquimbo": 2,
+      "Región de Valparaíso": 2,
+      "Región del Libertador General Bernardo O'Higgins": 2,
+      "Región del Maule": 2,
+      "Región de Ñuble": 2,
+      "Región del Biobío": 2,
+      "Región de La Araucanía": 2,
+      "Región de Los Ríos": 2,
+      "Región de Los Lagos": 2,
+      "Región de Aysén": 7,
+      "Región de Magallanes": 9
+    })
   });
 
   let requestPending = false;
   let pendingAction = "";
   let requestTimeout = null;
   let countdownTimer = null;
+  let pendingDeliveryData = null;
 
   createCheckoutInterface();
   installCheckoutInterception();
@@ -246,8 +275,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const apiUrlValida =
-       /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/
-          .test(CHECKOUT_CONFIG.apiUrl);
+      /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/
+        .test(CHECKOUT_CONFIG.apiUrl);
 
     if (!apiUrlValida) {
       showError(
@@ -258,6 +287,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData(form);
 
+    const tipoEntrega = String(
+      formData.get("tipoEntrega") || "Retiro"
+    ).trim();
+
+    const esRetiro =
+      tipoEntrega === "Retiro";
+
+    const region = esRetiro
+      ? CHECKOUT_CONFIG.pickupRegion
+      : String(formData.get("region") || "").trim();
+
+    const comuna = esRetiro
+      ? CHECKOUT_CONFIG.pickupCommune
+      : String(formData.get("comuna") || "").trim();
+
+    const direccion = esRetiro
+      ? CHECKOUT_CONFIG.pickupAddress
+      : String(formData.get("direccion") || "").trim();
+
+    if (
+      !esRetiro &&
+      (!region || !comuna || !direccion)
+    ) {
+      showError(
+        "Completa la región, comuna y dirección para solicitar envío."
+      );
+      return;
+    }
+
+    const estimacionBlue = esRetiro
+      ? null
+      : getBlueExpressTransitEstimate(region);
+
+    pendingDeliveryData = {
+      tipoEntrega,
+      region,
+      comuna,
+      direccion,
+      transportista: esRetiro
+        ? ""
+        : "Blue Express",
+      modalidadEnvio: esRetiro
+        ? "Retiro"
+        : "Por pagar",
+      tallaEnvio: esRetiro
+        ? ""
+        : "S",
+      cotizacionEnvio: esRetiro
+        ? "$0"
+        : "Por pagar; valor final determinado por Blue Express",
+      plazoEnvio: esRetiro
+        ? "Retiro coordinado"
+        : estimacionBlue.label,
+      plazoDiasHabiles: esRetiro
+        ? 0
+        : estimacionBlue.days
+    };
+
     const payload = {
       action: "crearReserva",
       formato: "iframe",
@@ -267,13 +354,13 @@ document.addEventListener("DOMContentLoaded", () => {
         nombre: String(formData.get("nombre") || "").trim(),
         correo: String(formData.get("correo") || "").trim(),
         whatsapp: String(formData.get("whatsapp") || "").trim(),
-        region: String(formData.get("region") || "").trim(),
-        comuna: String(formData.get("comuna") || "").trim(),
-        direccion: String(formData.get("direccion") || "").trim(),
-        tipoEntrega: String(
-          formData.get("tipoEntrega") || "Despacho"
-        ).trim()
+        region,
+        comuna,
+        direccion,
+        tipoEntrega
       },
+
+      entrega: pendingDeliveryData,
 
       items: cart.map((item) => ({
         sku: String(item.sku || "").trim().toUpperCase(),
@@ -391,8 +478,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const reservation = {
       ...response,
+      entrega:
+        response.entrega ||
+        pendingDeliveryData ||
+        null,
       savedAt: new Date().toISOString()
     };
+
+    pendingDeliveryData = null;
 
     saveActiveReservation(reservation);
     clearVisibleCart();
@@ -413,8 +506,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     body.innerHTML = `
       <p class="checkout-intro">
-        Completa tus datos para reservar las unidades
-        durante 30 minutos.
+        Completa tus datos y elige cómo quieres recibir tu compra.
+        Las unidades se reservarán durante 30 minutos.
       </p>
 
       <form data-checkout-form>
@@ -449,42 +542,143 @@ document.addEventListener("DOMContentLoaded", () => {
             required>
         </label>
 
-        <div class="checkout-grid">
-          <label class="checkout-field">
-            <span>Región</span>
-            <input
-              type="text"
-              name="region"
-              maxlength="100"
-              autocomplete="address-level1"
-              required>
-          </label>
+        <fieldset class="checkout-delivery">
+          <legend>¿Cómo quieres recibir tu compra?</legend>
 
-          <label class="checkout-field">
-            <span>Comuna</span>
-            <input
-              type="text"
-              name="comuna"
-              maxlength="100"
-              autocomplete="address-level2"
-              required>
-          </label>
+          <div class="delivery-options">
+            <label class="delivery-option">
+              <input
+                type="radio"
+                name="tipoEntrega"
+                value="Retiro"
+                checked>
+
+              <span>
+                <strong>Retiro en Quilicura</strong>
+                <small>Sin costo de envío</small>
+              </span>
+            </label>
+
+            <label class="delivery-option">
+              <input
+                type="radio"
+                name="tipoEntrega"
+                value="Envío por pagar">
+
+              <span>
+                <strong>Envío por pagar</strong>
+                <small>Mediante Blue Express</small>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div
+          class="delivery-panel"
+          data-pickup-panel>
+
+          <strong>Dirección de retiro</strong>
+
+          <p>
+            ${escapeHtml(CHECKOUT_CONFIG.pickupAddress)}
+          </p>
+
+          <small>
+            Después de confirmar el pago nos pondremos en contacto
+            para coordinar el día y horario.
+          </small>
         </div>
 
-        <label class="checkout-field">
-          <span>Dirección</span>
-          <textarea
-            name="direccion"
-            maxlength="220"
-            rows="3"
-            autocomplete="street-address"
-            required></textarea>
-        </label>
+        <div
+          class="delivery-panel"
+          data-shipping-panel
+          hidden>
 
-        <input
-          type="hidden"
-          name="tipoEntrega"
-          value="Despacho">
+          <div class="checkout-grid">
+            <label class="checkout-field">
+              <span>Región</span>
+
+              <select
+                name="region"
+                autocomplete="address-level1"
+                data-shipping-field
+                disabled>
+                <option value="">Selecciona una región</option>
+                <option>Región de Arica y Parinacota</option>
+                <option>Región de Tarapacá</option>
+                <option>Región de Antofagasta</option>
+                <option>Región de Atacama</option>
+                <option>Región de Coquimbo</option>
+                <option>Región de Valparaíso</option>
+                <option>Región Metropolitana</option>
+                <option>Región del Libertador General Bernardo O'Higgins</option>
+                <option>Región del Maule</option>
+                <option>Región de Ñuble</option>
+                <option>Región del Biobío</option>
+                <option>Región de La Araucanía</option>
+                <option>Región de Los Ríos</option>
+                <option>Región de Los Lagos</option>
+                <option>Región de Aysén</option>
+                <option>Región de Magallanes</option>
+              </select>
+            </label>
+
+            <label class="checkout-field">
+              <span>Comuna</span>
+
+              <input
+                type="text"
+                name="comuna"
+                maxlength="100"
+                autocomplete="address-level2"
+                placeholder="Ej.: Providencia"
+                data-shipping-field
+                disabled>
+            </label>
+          </div>
+
+          <label class="checkout-field">
+            <span>Dirección de entrega</span>
+
+            <textarea
+              name="direccion"
+              maxlength="220"
+              rows="3"
+              autocomplete="street-address"
+              placeholder="Calle, número, departamento o indicaciones"
+              data-shipping-field
+              disabled></textarea>
+          </label>
+
+          <div class="shipping-note">
+            <strong>Envío por pagar vía Blue Express</strong>
+
+            <p>
+              El total de la transferencia corresponde solo a los
+              productos. El envío se paga al transportista al recibir.
+            </p>
+
+            <div
+              class="shipping-estimate"
+              data-shipping-estimate
+              hidden>
+
+              <span>Tiempo estimado de tránsito</span>
+              <strong data-shipping-estimate-value>—</strong>
+
+              <small>
+                Contado desde que Blue Express recibe físicamente el
+                paquete. No incluye validación del pago ni preparación
+                del pedido por Rumbo Corcel.
+              </small>
+            </div>
+
+            <p class="shipping-disclaimer">
+              Es una referencia. El plazo definitivo aparecerá en el
+              seguimiento una vez generado el número de OS.
+            </p>
+          </div>
+        </div>
 
         <div
           class="checkout-error"
@@ -507,10 +701,210 @@ document.addEventListener("DOMContentLoaded", () => {
       </form>
     `;
 
-    body
-      .querySelector("[data-checkout-form]")
-      ?.addEventListener("submit", submitReservation);
+    const form =
+      body.querySelector("[data-checkout-form]");
+
+    form?.addEventListener(
+      "submit",
+      submitReservation
+    );
+
+    installDeliveryOptionHandlers(form);
   }
+
+
+  function installDeliveryOptionHandlers(form) {
+    if (!form) {
+      return;
+    }
+
+    const radios = Array.from(
+      form.querySelectorAll(
+        'input[name="tipoEntrega"]'
+      )
+    );
+
+    const pickupPanel =
+      form.querySelector("[data-pickup-panel]");
+
+    const shippingPanel =
+      form.querySelector("[data-shipping-panel]");
+
+    const shippingFields = Array.from(
+      form.querySelectorAll(
+        "[data-shipping-field]"
+      )
+    );
+
+    const regionField =
+      form.querySelector('select[name="region"]');
+
+    const estimateBox =
+      form.querySelector("[data-shipping-estimate]");
+
+    const estimateValue =
+      form.querySelector("[data-shipping-estimate-value]");
+
+    const updateShippingEstimate = () => {
+      const region = String(
+        regionField?.value || ""
+      ).trim();
+
+      if (!region) {
+        if (estimateBox) {
+          estimateBox.hidden = true;
+        }
+
+        if (estimateValue) {
+          estimateValue.textContent = "—";
+        }
+
+        return;
+      }
+
+      const estimate =
+        getBlueExpressTransitEstimate(region);
+
+      if (estimateValue) {
+        estimateValue.textContent = estimate.label;
+      }
+
+      if (estimateBox) {
+        estimateBox.hidden = false;
+      }
+    };
+
+    const updateDeliveryView = () => {
+      const selected =
+        form.querySelector(
+          'input[name="tipoEntrega"]:checked'
+        )?.value || "Retiro";
+
+      const esEnvio =
+        selected === "Envío por pagar";
+
+      if (pickupPanel) {
+        pickupPanel.hidden = esEnvio;
+      }
+
+      if (shippingPanel) {
+        shippingPanel.hidden = !esEnvio;
+      }
+
+      shippingFields.forEach((field) => {
+        field.disabled = !esEnvio;
+        field.required = esEnvio;
+      });
+
+      if (esEnvio) {
+        updateShippingEstimate();
+      } else if (estimateBox) {
+        estimateBox.hidden = true;
+      }
+
+      showError("");
+    };
+
+    radios.forEach((radio) => {
+      radio.addEventListener(
+        "change",
+        updateDeliveryView
+      );
+    });
+
+    regionField?.addEventListener(
+      "change",
+      updateShippingEstimate
+    );
+
+    updateDeliveryView();
+  }
+
+
+  function getBlueExpressTransitEstimate(region) {
+    const normalizedRegion = String(
+      region || ""
+    ).trim();
+
+    const days =
+      CHECKOUT_CONFIG.blueExpressTransitDays[normalizedRegion] || 2;
+
+    return {
+      days,
+      label:
+        days === 1
+          ? "Aproximadamente 1 día hábil"
+          : `Aproximadamente ${days} días hábiles`
+    };
+  }
+
+
+  function deliverySummaryMarkup(reservation) {
+    const entrega =
+      reservation.entrega || {};
+
+    const tipoEntrega = String(
+      entrega.tipoEntrega || ""
+    );
+
+    const esRetiro =
+      tipoEntrega === "Retiro";
+
+    if (esRetiro) {
+      return `
+        <div class="delivery-summary">
+          <strong>Retiro en Quilicura</strong>
+
+          <p>
+            ${escapeHtml(
+              entrega.direccion ||
+              CHECKOUT_CONFIG.pickupAddress
+            )}
+          </p>
+        </div>
+      `;
+    }
+
+    if (tipoEntrega) {
+      const destino = [
+        entrega.direccion,
+        entrega.comuna,
+        entrega.region
+      ]
+        .filter(Boolean)
+        .join(", ");
+
+      return `
+        <div class="delivery-summary">
+          <strong>
+            Envío por pagar vía Blue Express
+          </strong>
+
+          <p>
+            ${escapeHtml(destino)}
+          </p>
+
+          <p>
+            <strong>Tiempo estimado:</strong>
+            ${escapeHtml(
+              entrega.plazoEnvio ||
+              getBlueExpressTransitEstimate(
+                entrega.region
+              ).label
+            )}
+          </p>
+
+          <small>
+            Contado desde que Blue Express recibe el paquete.
+            El envío se paga al transportista al recibir.
+          </small>
+        </div>
+      `;
+    }
+
+    return "";
+  }
+
 
   function showTransferScreen(reservation) {
     window.clearInterval(countdownTimer);
@@ -543,8 +937,17 @@ document.addEventListener("DOMContentLoaded", () => {
         <strong data-reservation-countdown>--:--</strong>
       </div>
 
+      ${deliverySummaryMarkup(reservation)}
+
       <div class="transfer-total">
-        <span>Total a transferir</span>
+        <span>
+          ${
+            reservation.entrega?.tipoEntrega === "Envío por pagar"
+              ? "Total a transferir por productos"
+              : "Total a transferir"
+          }
+        </span>
+
         <strong>
           ${formatMoney(reservation.totalEstimado)}
         </strong>

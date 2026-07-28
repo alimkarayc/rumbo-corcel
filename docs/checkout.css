@@ -466,3 +466,254 @@
     grid-template-columns: 105px minmax(0, 1fr);
   }
 }
+
+
+
+
+
+
+/* =========================================================
+   RETIRO Y ENVÍO POR PAGAR
+   Agregar al final de checkout.css
+   ========================================================= */
+
+.checkout-delivery {
+  margin: 1rem 0;
+  padding: 0;
+
+  border: 0;
+}
+
+.checkout-delivery legend {
+  margin-bottom: 0.65rem;
+
+  color: var(--forest-dark);
+
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.delivery-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+.delivery-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+
+  min-height: 86px;
+  padding: 0.85rem;
+
+  background: #fffdfa;
+
+  border:
+    1px solid rgba(34, 48, 42, 0.2);
+
+  border-radius: 0.55rem;
+
+  cursor: pointer;
+
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.delivery-option:hover {
+  transform: translateY(-1px);
+  border-color: var(--bronze);
+}
+
+.delivery-option:has(input:checked) {
+  background: #f5ead7;
+  border-color: var(--bronze);
+  box-shadow:
+    0 0 0 2px rgba(196, 154, 74, 0.14);
+}
+
+.delivery-option input {
+  width: 17px;
+  height: 17px;
+  margin-top: 0.15rem;
+
+  accent-color: var(--forest-dark);
+}
+
+.delivery-option span {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.delivery-option strong {
+  color: var(--forest-dark);
+
+  font-size: 0.82rem;
+}
+
+.delivery-option small {
+  color: rgba(34, 48, 42, 0.64);
+
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.delivery-panel {
+  margin: 0 0 1rem;
+  padding: 0.9rem 1rem;
+
+  color: var(--forest-dark);
+  background: #edf2ee;
+
+  border:
+    1px solid rgba(34, 48, 42, 0.13);
+
+  border-radius: 0.55rem;
+}
+
+.delivery-panel[hidden] {
+  display: none !important;
+}
+
+.delivery-panel > strong,
+.shipping-note > strong,
+.delivery-summary > strong {
+  display: block;
+
+  margin-bottom: 0.3rem;
+
+  color: var(--forest-dark);
+
+  font-size: 0.8rem;
+}
+
+.delivery-panel p,
+.delivery-summary p,
+.shipping-note p {
+  margin: 0.25rem 0;
+
+  color: rgba(34, 48, 42, 0.74);
+
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.delivery-panel small,
+.delivery-summary small {
+  display: block;
+
+  margin-top: 0.35rem;
+
+  color: rgba(34, 48, 42, 0.62);
+
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.checkout-field select {
+  width: 100%;
+  padding: 0.78rem 0.85rem;
+
+  color: var(--forest-dark);
+  background: #fffdfa;
+
+  border:
+    1px solid rgba(34, 48, 42, 0.22);
+
+  border-radius: 0.42rem;
+
+  font: inherit;
+  font-size: 0.88rem;
+}
+
+.checkout-field select:focus {
+  outline:
+    2px solid rgba(196, 154, 74, 0.42);
+
+  border-color: var(--bronze);
+}
+
+.shipping-note {
+  padding: 0.8rem 0.85rem;
+
+  background: #f7edd6;
+
+  border:
+    1px solid rgba(139, 106, 62, 0.2);
+
+  border-radius: 0.45rem;
+}
+
+.delivery-summary {
+  margin-bottom: 0.75rem;
+  padding: 0.85rem 1rem;
+
+  background: #edf2ee;
+
+  border:
+    1px solid rgba(34, 48, 42, 0.12);
+
+  border-radius: 0.5rem;
+}
+
+@media (max-width: 620px) {
+  .delivery-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+/* Agregar al final de checkout.css */
+
+.shipping-estimate {
+  display: grid;
+  gap: 0.3rem;
+
+  margin-top: 0.8rem;
+  padding: 0.8rem 0.9rem;
+
+  background: #fffdfa;
+
+  border:
+    1px solid rgba(196, 154, 74, 0.34);
+
+  border-radius: 0.45rem;
+}
+
+.shipping-estimate[hidden] {
+  display: none !important;
+}
+
+.shipping-estimate > span {
+  color: rgba(34, 48, 42, 0.62);
+
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.shipping-estimate > strong {
+  color: var(--forest-dark);
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 1.1rem;
+}
+
+.shipping-estimate > small,
+.shipping-disclaimer {
+  color: rgba(34, 48, 42, 0.62);
+
+  font-size: 0.69rem;
+  line-height: 1.45;
+}
+

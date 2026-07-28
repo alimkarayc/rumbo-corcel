@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
    */
 
   const INVENTORY_API_URL =
-    "https://script.google.com/macros/s/AKfycbxICrnGOjEfJE6A2iIWbVIqJDsY9uWAQVCiHAWXKtjiFqksyQ6JVLGTtNjG0GbGyTMy/exec";
+    "https://script.google.com/macros/s/AKfycbymJY7QfvVhKrKRznUkk87mz3xA1C-kOuBtydu4N2ZL59sSdMc-MTfPV2ftLvMiUmmA/exec";
 
 
   /* -------------------------------------------------------
@@ -234,7 +234,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function loadInventory() {
     return new Promise((resolve, reject) => {
-
       if (
         !INVENTORY_API_URL ||
         INVENTORY_API_URL.includes("PEGA_AQUI")
@@ -248,74 +247,112 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const callbackName =
-        `rumboInventory_${Date.now()}_${Math.random()
-          .toString(36)
-          .slice(2)}`;
+      const iframe =
+        document.createElement("iframe");
 
-      const script = document.createElement("script");
+      iframe.hidden = true;
+      iframe.setAttribute(
+        "aria-hidden",
+        "true"
+      );
 
-      const timeout = window.setTimeout(() => {
-        cleanup();
+      iframe.style.position = "fixed";
+      iframe.style.width = "1px";
+      iframe.style.height = "1px";
+      iframe.style.opacity = "0";
+      iframe.style.pointerEvents = "none";
 
-        reject(
-          new Error(
-            "La consulta de inventario tardó demasiado."
-          )
-        );
-      }, 12000);
+      const timeout = window.setTimeout(
+        () => {
+          cleanup();
+
+          reject(
+            new Error(
+              "La consulta del inventario no respondió. " +
+              "Revisa que la implementación de Apps Script " +
+              "sea pública y corresponda a la versión actual."
+            )
+          );
+        },
+        15000
+      );
 
       function cleanup() {
         window.clearTimeout(timeout);
 
-        if (script.parentNode) {
-          script.parentNode.removeChild(script);
-        }
+        window.removeEventListener(
+          "message",
+          handleInventoryMessage
+        );
 
-        try {
-          delete window[callbackName];
-        } catch (_error) {
-          window[callbackName] = undefined;
-        }
+        iframe.remove();
       }
 
-      window[callbackName] = (response) => {
+      function handleInventoryMessage(event) {
+        const response = event.data;
+
+        if (
+          !response ||
+          typeof response !== "object" ||
+          response.tipo !==
+            "rumbo-inventario-respuesta"
+        ) {
+          return;
+        }
+
         cleanup();
+
+        if (response.ok !== true) {
+          reject(
+            new Error(
+              response.detalle ||
+              response.error ||
+              "La API no pudo leer el inventario."
+            )
+          );
+
+          return;
+        }
+
         resolve(response);
-      };
+      }
 
-      script.onerror = () => {
-        cleanup();
-
-        reject(
-          new Error(
-            "No fue posible conectar con el inventario."
-          )
-        );
-      };
+      window.addEventListener(
+        "message",
+        handleInventoryMessage
+      );
 
       const separator =
         INVENTORY_API_URL.includes("?")
           ? "&"
           : "?";
 
-      script.src =
+      iframe.src =
         `${INVENTORY_API_URL}` +
         `${separator}action=productos` +
-        `&callback=${encodeURIComponent(callbackName)}` +
+        `&formato=iframe` +
+        `&origen=${encodeURIComponent(
+          window.location.origin
+        )}` +
         `&_=${Date.now()}`;
 
-      script.async = true;
+      iframe.addEventListener(
+        "error",
+        () => {
+          cleanup();
 
-      console.log(
-      "URL exacta del inventario:",
-        script.src
+          reject(
+            new Error(
+              "No fue posible abrir la API de inventario."
+            )
+          );
+        },
+        { once: true }
       );
 
-      document.head.appendChild(script);
+      document.body.appendChild(iframe);
     });
   }
-
 
   /* -------------------------------------------------------
      CREAR INDICADOR DE STOCK
@@ -461,65 +498,35 @@ document.addEventListener("DOMContentLoaded", () => {
   /* -------------------------------------------------------
      TEXTO DE DISPONIBILIDAD
      ------------------------------------------------------- */
+function updateStockStatus(
+  statusElement,
+  available
+) {
+  statusElement.className =
+    "stock-status";
 
-  function updateStockStatus(
-    statusElement,
-    available
-  ) {
-    statusElement.className =
-      "stock-status";
-
-    if (available <= 0) {
-      statusElement.classList.add(
-        "is-out"
-      );
-
-      statusElement.textContent =
-        "Sin stock";
-
-      return;
-    }
-
-    if (available === 1) {
-      statusElement.classList.add(
-        "is-low"
-      );
-
-      statusElement.textContent =
-        "Última unidad disponible";
-
-      return;
-    }
-
-    if (available === 2) {
-      statusElement.classList.add(
-        "is-low"
-      );
-
-      statusElement.textContent =
-        "Últimas 2 unidades";
-
-      return;
-    }
-
-    if (available <= 5) {
-      statusElement.classList.add(
-        "is-available"
-      );
-
-      statusElement.textContent =
-        `${available} disponibles`;
-
-      return;
-    }
-
+  if (available <= 0) {
     statusElement.classList.add(
-      "is-available"
+      "is-out"
     );
 
     statusElement.textContent =
-      "Disponible";
+      "Sin stock";
+
+    return;
   }
+
+  statusElement.classList.add(
+    available <= 2
+      ? "is-low"
+      : "is-available"
+  );
+
+  statusElement.textContent =
+    available === 1
+      ? "1 unidad disponible"
+      : `${available} unidades disponibles`;
+}
 
 
   /* -------------------------------------------------------

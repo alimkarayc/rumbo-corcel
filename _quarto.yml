@@ -31,7 +31,7 @@ website:
 
     right:
       - icon: whatsapp
-        href: "https://wa.me/56962590678?text=Hola%20Rumbo%20Corcel%2C%20quiero%20consultar%20por%20sus%20productos."
+        href: "https://wa.me/message/5PEO6Z2GUZLNP1"
         aria-label: WhatsApp
         target: _blank
         
@@ -50,7 +50,7 @@ website:
 
     right:
       - text: "WhatsApp"
-        href: https://wa.me/56962590678
+        href: "https://wa.me/message/5PEO6Z2GUZLNP1"
 
 format:
   html:
