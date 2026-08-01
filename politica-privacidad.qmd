@@ -1,0 +1,168 @@
+---
+title: "Política de Privacidad – Rumbo Corcel"
+description: "Conoce cómo Rumbo Corcel recopila, utiliza, protege y conserva los datos personales necesarios para gestionar compras, pagos y entregas."
+lang: es
+---
+
+::: {.legal-page}
+::: {.legal-card}
+
+<p class="legal-updated">Última actualización: 1 de agosto de 2026</p>
+
+# Política de Privacidad
+
+En Rumbo Corcel respetamos la privacidad de quienes visitan nuestro sitio y realizan compras. Esta política explica qué datos recopilamos, para qué los usamos, con quiénes podemos compartirlos, durante cuánto tiempo los conservamos y cómo puedes ejercer tus derechos.
+
+Esta política se aplica a **rumbocorcel.cl**, al carrito, al checkout, a las reservas de stock, a las comunicaciones por correo electrónico y WhatsApp, al programa de fidelización y a la coordinación de retiro o despacho.
+
+## 1. Responsable del tratamiento
+
+**Nombre de fantasía:** Rumbo Corcel  
+**Responsable legal o razón social:** Luis Cuevas  
+**Domicilio legal o comercial:** Aranjuez Pte. 399, 8700585 Quilicura, Región Metropolitana  
+**Correo electrónico:** [rumbocorcel@gmail.com](mailto:rumbocorcel@gmail.com)  
+**WhatsApp:** [Contactar a Rumbo Corcel](https://wa.me/message/5PEO6Z2GUZLNP1)
+
+
+## 2. Datos que recopilamos
+
+Podemos recopilar:
+
+- Nombre completo.
+- Correo electrónico.
+- Número de WhatsApp o teléfono.
+- Modalidad de entrega.
+- Región, comuna y dirección.
+- Productos, cantidades, precio y total del pedido.
+- Fecha y hora de la reserva.
+- Estado del pedido y código de venta.
+- Nombre del titular de la cuenta desde la cual se informa la transferencia.
+- Número de orden o enlace de seguimiento, cuando corresponda.
+- Sellos y beneficios del programa de fidelización.
+
+**Rumbo Corcel no solicita ni almacena contraseñas bancarias, claves, números de tarjetas ni códigos de seguridad.**
+
+Los proveedores tecnológicos utilizados para alojar y proteger el sitio pueden procesar datos técnicos, como dirección IP, navegador, dispositivo, fecha, hora y registros de seguridad.
+
+## 3. Para qué utilizamos los datos
+
+Utilizamos los datos para:
+
+1. Validar stock y crear una reserva temporal.
+2. Gestionar el carrito y el pedido.
+3. Verificar manualmente una transferencia.
+4. Confirmar, preparar o rechazar un pedido.
+5. Enviar correos de confirmación y despacho.
+6. Coordinar retiro en Quilicura.
+7. Crear y gestionar un envío mediante Blue Express.
+8. Atender cambios, devoluciones, retracto, garantía y reclamos.
+9. Administrar el programa de fidelización.
+10. Prevenir fraude, abuso de reservas y accesos no autorizados.
+11. Cumplir obligaciones legales, tributarias, contables y de protección al consumidor.
+
+Los datos entregados para una compra **no serán utilizados para publicidad sin una autorización adicional y separada**.
+
+## 4. Fundamento del tratamiento
+
+Tratamos los datos cuando:
+
+- La persona los entrega voluntariamente y autoriza su uso para gestionar el pedido.
+- Son necesarios para ejecutar una compra, reserva, pago, retiro o despacho.
+- Son necesarios para cumplir obligaciones legales.
+- Son necesarios para atender reclamos o proteger la seguridad del sitio.
+
+## 5. Servicios y terceros que participan
+
+Podemos utilizar:
+
+- **Google Sheets y Google Apps Script:** inventario, reservas, pedidos y automatizaciones.
+- **Gmail:** comunicaciones relacionadas con pedidos.
+- **GitHub Pages:** alojamiento del sitio.
+- **Cloudflare:** DNS, HTTPS y seguridad.
+- **Blue Express:** despacho y seguimiento cuando la persona elige envío.
+- **Otros prestadores logísticos o tecnológicos:** solo cuando sean necesarios para cumplir el pedido.
+
+Solo compartimos la información necesaria para la función correspondiente. También podremos entregar información cuando exista una obligación legal o un requerimiento válido de una autoridad competente.
+
+## 6. Tratamiento fuera de Chile
+
+Algunos proveedores tecnológicos pueden almacenar o procesar información en servidores ubicados fuera de Chile. Rumbo Corcel procurará limitar los datos compartidos a lo estrictamente necesario.
+
+## 7. Conservación de los datos
+
+Aplicamos los siguientes criterios:
+
+- **Reservas vencidas o no pagadas:** hasta 90 días.
+- **Pedidos confirmados, pagos y antecedentes tributarios o contables:** hasta 6 años o por más tiempo si una obligación legal o controversia lo exige.
+- **Programa de fidelización:** mientras la relación se mantenga activa o hasta que la persona solicite su eliminación, salvo datos que deban conservarse por ley.
+- **Consultas y mensajes:** hasta 24 meses desde la última comunicación, salvo que estén asociados a una compra o reclamo pendiente.
+- **Registros técnicos y de seguridad:** por el plazo necesario para investigar incidentes y según las políticas de los proveedores.
+
+Vencidos los plazos aplicables, los datos serán eliminados, anonimizados o bloqueados, según corresponda.
+
+## 8. Derechos de las personas
+
+Puedes solicitar, según corresponda:
+
+- Acceso a tus datos.
+- Rectificación de datos incorrectos.
+- Eliminación o supresión.
+- Oposición a determinados usos.
+- Bloqueo del tratamiento.
+- Portabilidad, cuando sea aplicable.
+- Revocación del consentimiento.
+- Información sobre el origen, finalidad y destinatarios.
+
+Para ejercer estos derechos, escribe a:
+
+**Correo:** [rumbocorcel@gmail.com](mailto:rumbocorcel@gmail.com)  
+**Asunto recomendado:** `Solicitud de datos personales`
+
+Podremos solicitar antecedentes razonables para verificar la identidad de quien realiza la solicitud.
+
+## 9. Seguridad
+
+Rumbo Corcel aplica medidas razonables, entre ellas:
+
+- Conexión HTTPS.
+- Acceso restringido a la planilla y al proyecto de automatización.
+- Separación entre información pública e información interna de pedidos.
+- Control de permisos de las cuentas administrativas.
+- Revisión manual de pagos antes de confirmarlos.
+- Protección del dominio mediante Cloudflare.
+
+Ningún sistema es completamente infalible. Si detectamos un incidente relevante, adoptaremos medidas para contenerlo, investigarlo y comunicarlo cuando corresponda.
+
+## 10. Almacenamiento local, cookies y analítica
+
+El sitio utiliza almacenamiento local del navegador para recordar:
+
+- Productos del carrito.
+- Cantidades seleccionadas.
+- Una reserva activa.
+- El estado temporal del proceso de compra.
+
+Esta información permanece en el dispositivo y puede eliminarse desde la configuración del navegador.
+
+Actualmente Rumbo Corcel no utiliza estos datos para publicidad personalizada. Si se incorpora Google Analytics u otra herramienta no esencial, esta política será actualizada y se implementará el consentimiento correspondiente antes de activarla.
+
+## 11. Menores de edad
+
+La tienda no está dirigida específicamente a menores de edad. Las compras realizadas por menores deben contar con autorización y supervisión de su representante legal.
+
+## 12. Cambios a esta política
+
+Podemos actualizar esta política por cambios legales, técnicos u operativos. La versión vigente estará publicada aquí con su fecha de actualización.
+
+## 13. Normativa aplicable
+
+Esta política se interpreta conforme a la legislación chilena vigente sobre protección de datos personales y derechos de los consumidores, incluyendo la Ley N.º 19.628 y sus modificaciones.
+
+## 14. Contacto
+
+**Rumbo Corcel**  
+**Correo:** [rumbocorcel@gmail.com](mailto:rumbocorcel@gmail.com)  
+**WhatsApp:** [Contactar](https://wa.me/message/5PEO6Z2GUZLNP1)
+
+:::
+:::

@@ -1,0 +1,159 @@
+---
+title: "Términos y Condiciones – Rumbo Corcel"
+description: "Revisa las condiciones de compra, reserva de stock, pago, retiro, despacho y confirmación de pedidos de Rumbo Corcel."
+lang: es
+---
+
+::: {.legal-page}
+::: {.legal-card}
+
+<p class="legal-updated">Última actualización: 1 de agosto de 2026</p>
+
+# Términos y Condiciones
+
+Estos Términos y Condiciones regulan el uso de **rumbocorcel.cl** y las compras realizadas a través del sitio.
+
+Al marcar la casilla de aceptación del checkout y continuar con el pedido, la persona declara haber tenido acceso claro a estas condiciones y a las políticas relacionadas.
+
+## 1. Identificación del vendedor
+
+**Nombre de fantasía:** Rumbo Corcel  
+**Responsable legal o razón social:** Luis Cuevas  
+**Domicilio legal o comercial:** Aranjuez Pte. 399, 8700585 Quilicura, Región Metropolitana 
+**Correo electrónico:** [rumbocorcel@gmail.com](mailto:rumbocorcel@gmail.com)  
+**WhatsApp:** [Contactar a Rumbo Corcel](https://wa.me/message/5PEO6Z2GUZLNP1)
+
+## 2. Productos
+
+Rumbo Corcel comercializa mates, bombillas, materas, yerba, kits y accesorios relacionados.
+
+Las fotografías y descripciones buscan representar fielmente los productos. Los artículos artesanales o fabricados con madera, cuero, calabaza, alpaca u otros materiales naturales pueden presentar variaciones de color, veta, textura, medidas o terminaciones. Estas variaciones normales no constituyen por sí mismas una falla.
+
+## 3. Precios
+
+Los precios se expresan en pesos chilenos.
+
+El precio aplicable será el informado al crear la reserva, salvo error evidente de digitación o sincronización. Si se detecta un error antes de confirmar el pago, Rumbo Corcel informará al cliente y ofrecerá continuar con el valor correcto o cancelar.
+
+El despacho por Blue Express se ofrece en modalidad **por pagar**, salvo que se informe otra condición. El total transferido a Rumbo Corcel puede corresponder solo a los productos.
+
+## 4. Stock y reserva temporal
+
+El stock se consulta antes de permitir agregar productos al carrito. Al completar el formulario, el sistema realiza una nueva validación y puede reservar las unidades durante **30 minutos**.
+
+La reserva temporal:
+
+- No equivale a una compra confirmada.
+- No genera un código definitivo de venta.
+- Caduca si el pago no es informado dentro del plazo.
+- Puede liberarse automáticamente al vencer.
+- Está sujeta a que el inventario no presente errores.
+
+## 5. Proceso de compra
+
+1. La persona selecciona productos y cantidades.
+2. Completa sus datos.
+3. Elige retiro o envío.
+4. Acepta los términos y la política de privacidad.
+5. El sistema valida el stock y crea una reserva.
+6. Se muestran los datos para transferencia.
+7. La persona informa que realizó la transferencia.
+8. Rumbo Corcel verifica manualmente el pago.
+9. Si el pago es correcto, se envía un correo de confirmación y un código de pedido.
+10. El pedido pasa a preparación, retiro o despacho.
+
+Informar una transferencia no significa que el pago haya sido confirmado.
+
+## 6. Pago
+
+El medio de pago disponible actualmente es transferencia bancaria.
+
+La persona compradora debe transferir el monto indicado, usar correctamente los datos bancarios mostrados e informar el nombre del titular desde el cual realizó la transferencia.
+
+Rumbo Corcel verificará manualmente el abono. El sitio informa un plazo de hasta 12 horas para confirmar el pedido, aunque se procurará responder antes.
+
+## 7. Confirmación del contrato
+
+La compra se considera confirmada cuando Rumbo Corcel:
+
+- Verifica el pago.
+- Asigna un código de venta.
+- Envía un correo de confirmación con el detalle del pedido.
+
+Mientras no exista esa confirmación, el pedido se mantiene pendiente.
+
+## 8. Retiro en Quilicura
+
+Cuando se elige retiro:
+
+- No se cobra despacho.
+- Rumbo Corcel contactará a la persona para coordinar día y horario.
+- El pedido solo podrá retirarse cuando esté confirmado y preparado.
+- Podrá solicitarse el código del pedido para verificar la entrega.
+
+## 9. Envío por Blue Express
+
+Cuando se elige envío:
+
+- Se solicitarán región, comuna y dirección.
+- El envío se gestionará después de confirmar el pago y preparar el pedido.
+- El costo final es determinado por Blue Express.
+- La modalidad indicada es por pagar, salvo comunicación distinta.
+- El plazo del checkout es referencial.
+- El tiempo de tránsito comienza cuando Blue Express recibe físicamente el paquete.
+- Se enviará la orden o enlace de seguimiento cuando esté disponible.
+
+La persona compradora es responsable de ingresar una dirección completa y correcta.
+
+## 10. Cancelación antes de la confirmación
+
+Rumbo Corcel podrá cancelar una reserva antes de confirmar la compra cuando:
+
+- No se recibe el pago.
+- La reserva venció.
+- El monto transferido es incorrecto.
+- Existe un error de stock.
+- Se detecta uso abusivo o fraudulento.
+- No es posible verificar información básica del pedido.
+
+Si existiera un pago recibido y Rumbo Corcel no pudiera cumplir la venta, se coordinará la devolución correspondiente.
+
+## 11. Cambios, devoluciones, retracto y garantía
+
+Revisa la [Política de Cambios, Devoluciones, Retracto y Garantía](cambios-devoluciones.qmd).
+
+Nada de estos términos limita derechos irrenunciables reconocidos por la legislación chilena.
+
+## 12. Programa de fidelización
+
+Las compras pagadas pueden acumular sellos según las reglas vigentes.
+
+El beneficio anunciado actualmente considera cinco sellos, un plazo mínimo desde el primer sello, un descuento en una compra posterior y un regalo sujeto a disponibilidad.
+
+El beneficio no puede canjearse por dinero, no se aplica retroactivamente y puede requerir validación manual.
+
+## 13. Propiedad intelectual
+
+El nombre Rumbo Corcel, textos, fotografías, diseño y contenidos no pueden utilizarse comercialmente sin autorización, salvo los usos permitidos por la ley.
+
+## 14. Privacidad
+
+El tratamiento de datos se regula en la [Política de Privacidad](politica-privacidad.qmd).
+
+## 15. Responsabilidad
+
+Rumbo Corcel no excluye ni limita responsabilidades que legalmente correspondan frente a consumidores.
+
+El sitio puede experimentar interrupciones temporales por mantenimiento, servicios externos o problemas técnicos. Rumbo Corcel procurará corregirlos y proteger las reservas o pagos afectados.
+
+## 16. Legislación aplicable
+
+Las compras se rigen por la legislación de Chile, especialmente las normas sobre protección al consumidor, comercio electrónico y protección de datos personales.
+
+## 17. Contacto
+
+**Correo:** [rumbocorcel@gmail.com](mailto:rumbocorcel@gmail.com)  
+**WhatsApp:** [Contactar a Rumbo Corcel](https://wa.me/message/5PEO6Z2GUZLNP1)
+
+:::
+:::
