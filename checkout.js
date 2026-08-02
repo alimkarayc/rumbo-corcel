@@ -3,6 +3,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CHECKOUT_CONFIG = Object.freeze({
     apiUrl: "https://script.google.com/macros/s/AKfycbymJY7QfvVhKrKRznUkk87mz3xA1C-kOuBtydu4N2ZL59sSdMc-MTfPV2ftLvMiUmmA/exec",
+    turnstileSiteKey: "0x4AAAAAAEEIY8C7n9zxx6Bt"
     cartStorageKey: "rumboCorcelCartV2",
     reservationStorageKey: "rumboCorcelReservaV1",
     requestTimeoutMs: 45000,
@@ -36,11 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   });
 
-  let requestPending = false;
-  let pendingAction = "";
-  let requestTimeout = null;
-  let countdownTimer = null;
-  let pendingDeliveryData = null;
+    let requestPending = false;
+    let pendingAction = "";
+    let requestTimeout = null;
+    let countdownTimer = null;
+    let pendingDeliveryData = null;
+
+    let turnstileWidgetId = null;
+    let turnstileToken = "";
 
   createCheckoutInterface();
   installCheckoutInterception();
@@ -273,6 +277,14 @@ document.addEventListener("DOMContentLoaded", () => {
       showError("Tu carrito está vacío.");
       return;
     }
+    
+    if (!turnstileToken) {
+  showError(
+    "Completa la verificación de seguridad antes de reservar."
+  );
+
+  return;
+}
 
     const apiUrlValida =
       /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/
@@ -349,7 +361,9 @@ document.addEventListener("DOMContentLoaded", () => {
       action: "crearReserva",
       formato: "iframe",
       origen: window.location.origin,
-
+      
+      turnstileToken,
+      
       cliente: {
         nombre: String(formData.get("nombre") || "").trim(),
         correo: String(formData.get("correo") || "").trim(),
@@ -413,7 +427,52 @@ document.addEventListener("DOMContentLoaded", () => {
     }, CHECKOUT_CONFIG.requestTimeoutMs);
   }
 
+function isTrustedAppsScriptOrigin(origin) {
+  try {
+    const url = new URL(origin);
+
+    const trustedHostname =
+      url.hostname === "script.google.com" ||
+      url.hostname.endsWith(
+        ".script.googleusercontent.com"
+      ) ||
+      url.hostname.endsWith(
+        ".scriptmac.googleusercontent.com"
+      );
+
+    return (
+      url.protocol === "https:" &&
+      trustedHostname
+    );
+  } catch (_error) {
+    return false;
+  }
+}
+
+
+
   function handleAppsScriptMessage(event) {
+    const responseFrame =
+      document.querySelector(
+        'iframe[name="rumboReservaResponse"]'
+      );
+
+   if (
+      !responseFrame ||
+      event.source !==
+        responseFrame.contentWindow ||
+      !isTrustedAppsScriptOrigin(
+        event.origin
+      )
+    ) {
+    console.warn(
+      "Mensaje externo bloqueado:",
+      event.origin
+    );
+
+    return;
+  }
+  
     if (!requestPending) {
       return;
     }
@@ -679,6 +738,21 @@ document.addEventListener("DOMContentLoaded", () => {
             </p>
           </div>
         </div>
+        <div class="turnstile-section">
+  <p>
+    Verificación de seguridad
+  </p>
+
+  <div
+    class="turnstile-container"
+    data-turnstile-container>
+  </div>
+
+  <small>
+    Esta verificación evita reservas automáticas
+    o maliciosas del inventario.
+  </small>
+</div>
 
         <div
           class="checkout-error"
@@ -710,7 +784,118 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     installDeliveryOptionHandlers(form);
+    renderTurnstileWidget(form);
   }
+  
+  function renderTurnstileWidget(form) {
+  if (!form) {
+    return;
+  }
+
+  const container =
+    form.querySelector(
+      "[data-turnstile-container]"
+    );
+
+  const submitButton =
+    form.querySelector(
+      "[data-checkout-submit]"
+    );
+
+  if (!container) {
+    return;
+  }
+
+  /*
+   * Esperar a que el script externo
+   * de Cloudflare termine de cargar.
+   */
+  if (
+    !window.turnstile ||
+    typeof window.turnstile.render !==
+      "function"
+  ) {
+    window.setTimeout(
+      () => {
+        renderTurnstileWidget(form);
+      },
+      150
+    );
+
+    return;
+  }
+
+  /*
+   * Eliminar un widget anterior
+   * si se vuelve a abrir el checkout.
+   */
+  if (turnstileWidgetId !== null) {
+    try {
+      window.turnstile.remove(
+        turnstileWidgetId
+      );
+    } catch (_error) {
+      // El widget anterior ya no existía.
+    }
+  }
+
+  turnstileToken = "";
+
+  if (submitButton) {
+    submitButton.disabled = true;
+  }
+
+  turnstileWidgetId =
+    window.turnstile.render(
+      container,
+      {
+        sitekey:
+          CHECKOUT_CONFIG
+            .turnstileSiteKey,
+
+        theme: "light",
+        size: "flexible",
+        action: "crear_reserva",
+
+        callback(token) {
+          turnstileToken =
+            String(token || "");
+
+          if (submitButton) {
+            submitButton.disabled = false;
+          }
+
+          showError("");
+        },
+
+        "expired-callback"() {
+          turnstileToken = "";
+
+          if (submitButton) {
+            submitButton.disabled = true;
+          }
+
+          showError(
+            "La verificación de seguridad venció. Complétala nuevamente."
+          );
+        },
+
+        "error-callback"() {
+          turnstileToken = "";
+
+          if (submitButton) {
+            submitButton.disabled = true;
+          }
+
+          showError(
+            "No pudimos completar la verificación de seguridad. Recarga la página e inténtalo nuevamente."
+          );
+
+          return true;
+        }
+      }
+    );
+}
 
 
   function installDeliveryOptionHandlers(form) {

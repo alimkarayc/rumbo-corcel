@@ -717,3 +717,46 @@
   line-height: 1.45;
 }
 
+
+/* =========================================================
+   CLOUDFLARE TURNSTILE
+   ========================================================= */
+
+.turnstile-section {
+  display: grid;
+  gap: 0.55rem;
+
+  margin: 1rem 0;
+  padding: 0.9rem;
+
+  background: #fffdfa;
+
+  border:
+    1px solid rgba(34, 48, 42, 0.16);
+
+  border-radius: 0.55rem;
+}
+
+.turnstile-section > p {
+  margin: 0;
+
+  color: var(--forest-dark);
+
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.turnstile-section > small {
+  color: rgba(34, 48, 42, 0.62);
+
+  font-size: 0.69rem;
+  line-height: 1.45;
+}
+
+.turnstile-container {
+  min-height: 65px;
+}
+
+.turnstile-container iframe {
+  max-width: 100%;
+}
