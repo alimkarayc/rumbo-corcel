@@ -203,15 +203,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  /*
-   * Pega aquí la URL ORIGINAL de la implementación.
-   * Debe comenzar con script.google.com y terminar en /exec.
-   *
-   * NO pegues la URL redirigida de googleusercontent.com.
-   */
 
   const INVENTORY_API_URL =
-    "https://script.google.com/macros/s/AKfycbymJY7QfvVhKrKRznUkk87mz3xA1C-kOuBtydu4N2ZL59sSdMc-MTfPV2ftLvMiUmmA/exec";
+    "https://script.google.com/macros/s/AKfycbw4cUPvEGWSCph_NEgPaj9dFhp3WgwmMxH2dMb_aw7aLqYsEkzxxOAD522mOz-iawzd/exec";
 
 
   /* -------------------------------------------------------
@@ -232,63 +226,82 @@ document.addEventListener("DOMContentLoaded", () => {
      CONSULTA JSONP
      ------------------------------------------------------- */
 
-  function loadInventory() {
-    return new Promise((resolve, reject) => {
-      if (
-        !INVENTORY_API_URL ||
-        INVENTORY_API_URL.includes("PEGA_AQUI")
-      ) {
-        reject(
-          new Error(
-            "Falta configurar INVENTORY_API_URL."
-          )
-        );
+function loadInventory() {
+  return new Promise((resolve, reject) => {
+    if (
+      !INVENTORY_API_URL ||
+      INVENTORY_API_URL.includes("PEGA_AQUI")
+    ) {
+      reject(
+        new Error(
+          "Falta configurar INVENTORY_API_URL."
+        )
+      );
 
+      return;
+    }
+
+    const iframe =
+      document.createElement("iframe");
+
+    iframe.hidden = true;
+    iframe.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    iframe.style.position = "fixed";
+    iframe.style.width = "1px";
+    iframe.style.height = "1px";
+    iframe.style.opacity = "0";
+    iframe.style.pointerEvents = "none";
+    iframe.style.border = "0";
+
+    let finished = false;
+
+    const isTrustedAppsScriptOrigin =
+      (origin) => {
+        try {
+          const url = new URL(origin);
+
+          const trustedHostname =
+            url.hostname ===
+              "script.google.com" ||
+            url.hostname.endsWith(
+              ".script.googleusercontent.com"
+            ) ||
+            url.hostname.endsWith(
+              ".scriptmac.googleusercontent.com"
+            );
+
+          return (
+            url.protocol === "https:" &&
+            trustedHostname
+          );
+        } catch (_error) {
+          return false;
+        }
+      };
+
+    const cleanup = () => {
+      if (finished) {
         return;
       }
 
-      const iframe =
-        document.createElement("iframe");
+      finished = true;
 
-      iframe.hidden = true;
-      iframe.setAttribute(
-        "aria-hidden",
-        "true"
+      window.clearTimeout(timeout);
+
+      window.removeEventListener(
+        "message",
+        handleInventoryMessage
       );
 
-      iframe.style.position = "fixed";
-      iframe.style.width = "1px";
-      iframe.style.height = "1px";
-      iframe.style.opacity = "0";
-      iframe.style.pointerEvents = "none";
+      iframe.remove();
+    };
 
-      const timeout = window.setTimeout(
-        () => {
-          cleanup();
-
-          reject(
-            new Error(
-              "La consulta del inventario no respondió. " +
-              "Revisa que la implementación de Apps Script " +
-              "sea pública y corresponda a la versión actual."
-            )
-          );
-        },
-        15000
-      );
-
-      function cleanup() {
-        window.clearTimeout(timeout);
-
-        window.removeEventListener(
-          "message",
-          handleInventoryMessage
-        );
-
-        iframe.remove();
-      }
-
-      function handleInventoryMessage(event) {
+    const handleInventoryMessage =
+      (event) => {
         const response = event.data;
 
         if (
@@ -299,6 +312,24 @@ document.addEventListener("DOMContentLoaded", () => {
         ) {
           return;
         }
+
+        if (
+          !isTrustedAppsScriptOrigin(
+            event.origin
+          )
+        ) {
+          console.warn(
+            "Respuesta de inventario bloqueada:",
+            event.origin
+          );
+
+          return;
+        }
+
+      console.log(
+        "Respuesta de inventario recibida desde:",
+        event.origin
+      );
 
         cleanup();
 
@@ -315,44 +346,60 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         resolve(response);
-      }
+      };
 
-      window.addEventListener(
-        "message",
-        handleInventoryMessage
-      );
+    const timeout =
+      window.setTimeout(() => {
+        cleanup();
 
-      const separator =
-        INVENTORY_API_URL.includes("?")
-          ? "&"
-          : "?";
+        reject(
+          new Error(
+            "La consulta del inventario tardó demasiado."
+          )
+        );
+      }, 20000);
 
-      iframe.src =
-        `${INVENTORY_API_URL}` +
-        `${separator}action=productos` +
-        `&formato=iframe` +
-        `&origen=${encodeURIComponent(
-          window.location.origin
-        )}` +
-        `&_=${Date.now()}`;
+    window.addEventListener(
+      "message",
+      handleInventoryMessage
+    );
 
-      iframe.addEventListener(
-        "error",
-        () => {
-          cleanup();
+    const separator =
+      INVENTORY_API_URL.includes("?")
+        ? "&"
+        : "?";
 
-          reject(
-            new Error(
-              "No fue posible abrir la API de inventario."
-            )
-          );
-        },
-        { once: true }
-      );
+    iframe.src =
+      `${INVENTORY_API_URL}` +
+      `${separator}action=productos` +
+      `&formato=iframe` +
+      `&origen=${encodeURIComponent(
+        window.location.origin
+      )}` +
+      `&_=${Date.now()}`;
 
-      document.body.appendChild(iframe);
-    });
-  }
+    iframe.addEventListener(
+      "error",
+      () => {
+        cleanup();
+
+        reject(
+          new Error(
+            "No fue posible abrir la API de inventario."
+          )
+        );
+      },
+      { once: true }
+    );
+
+    console.log(
+      "Consultando inventario mediante iframe:",
+      iframe.src
+    );
+
+    document.body.appendChild(iframe);
+  });
+}
 
   /* -------------------------------------------------------
      CREAR INDICADOR DE STOCK

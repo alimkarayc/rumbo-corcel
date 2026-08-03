@@ -216,15 +216,6 @@ document.addEventListener(
 
       document
         .querySelector(
-          "[data-cart-checkout]"
-        )
-        ?.addEventListener(
-          "click",
-          checkoutByWhatsApp
-        );
-
-      document
-        .querySelector(
           "[data-cart-content]"
         )
         ?.addEventListener(

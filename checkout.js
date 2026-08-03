@@ -2,8 +2,8 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const CHECKOUT_CONFIG = Object.freeze({
-    apiUrl: "https://script.google.com/macros/s/AKfycbymJY7QfvVhKrKRznUkk87mz3xA1C-kOuBtydu4N2ZL59sSdMc-MTfPV2ftLvMiUmmA/exec",
-    turnstileSiteKey: "0x4AAAAAAEEIY8C7n9zxx6Bt"
+    apiUrl: "https://script.google.com/macros/s/AKfycbw4cUPvEGWSCph_NEgPaj9dFhp3WgwmMxH2dMb_aw7aLqYsEkzxxOAD522mOz-iawzd/exec",
+    turnstileSiteKey: "0x4AAAAAAEEIY8C7n9zxx6Bt",
     cartStorageKey: "rumboCorcelCartV2",
     reservationStorageKey: "rumboCorcelReservaV1",
     requestTimeoutMs: 45000,
@@ -451,44 +451,37 @@ function isTrustedAppsScriptOrigin(origin) {
 
 
 
-  function handleAppsScriptMessage(event) {
-    const responseFrame =
-      document.querySelector(
-        'iframe[name="rumboReservaResponse"]'
-      );
+function handleAppsScriptMessage(event) {
+  const response = event.data;
 
-   if (
-      !responseFrame ||
-      event.source !==
-        responseFrame.contentWindow ||
-      !isTrustedAppsScriptOrigin(
-        event.origin
-      )
-    ) {
-    console.warn(
-      "Mensaje externo bloqueado:",
-      event.origin
-    );
-
+  if (
+    !response ||
+    typeof response !== "object" ||
+    response.tipo !==
+      "rumbo-reserva-respuesta" ||
+    typeof response.ok !== "boolean"
+  ) {
     return;
   }
-  
-    if (!requestPending) {
-      return;
-    }
 
-    const response = event.data;
+  if (!requestPending) {
+    return;
+  }
 
     if (
-      !response ||
-      typeof response !== "object" ||
-      response.tipo !== "rumbo-reserva-respuesta" ||
-      typeof response.ok !== "boolean"
+      !isTrustedAppsScriptOrigin(
+        event.origin
+      ) 
     ) {
-      return;
+    console.warn(
+      "Respuesta de reserva bloqueada:",
+        event.origin
+      );
+
+    return; 
     }
 
-    window.clearTimeout(requestTimeout);
+  window.clearTimeout(requestTimeout);
 
     const action = pendingAction;
     pendingAction = "";
