@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   const INVENTORY_API_URL =
-    "https://script.google.com/macros/s/AKfycbw4cUPvEGWSCph_NEgPaj9dFhp3WgwmMxH2dMb_aw7aLqYsEkzxxOAD522mOz-iawzd/exec";
+    "https://still-flower-9194rumbo-corcel-inventario.rumbocorcel.workers.dev/productos";
 
 
   /* -------------------------------------------------------
@@ -226,179 +226,87 @@ document.addEventListener("DOMContentLoaded", () => {
      CONSULTA JSONP
      ------------------------------------------------------- */
 
-function loadInventory() {
-  return new Promise((resolve, reject) => {
-    if (
-      !INVENTORY_API_URL ||
-      INVENTORY_API_URL.includes("PEGA_AQUI")
-    ) {
-      reject(
-        new Error(
-          "Falta configurar INVENTORY_API_URL."
-        )
+async function loadInventory() {
+  if (
+    !INVENTORY_API_URL ||
+    INVENTORY_API_URL.includes(
+      "PEGA_AQUI"
+    )
+  ) {
+    throw new Error(
+      "Falta configurar INVENTORY_API_URL."
+    );
+  }
+
+  const controller =
+    new AbortController();
+
+  const timeout =
+    window.setTimeout(
+      () => {
+        controller.abort();
+      },
+      10000
+    );
+
+  try {
+    console.log(
+      "Consultando inventario mediante Worker:",
+      INVENTORY_API_URL
+    );
+
+    const response =
+      await fetch(
+        INVENTORY_API_URL,
+        {
+          method: "GET",
+          mode: "cors",
+          cache: "no-store",
+          credentials: "omit",
+          signal: controller.signal,
+
+          headers: {
+            Accept: "application/json"
+          }
+        }
       );
 
-      return;
+    if (!response.ok) {
+      throw new Error(
+        `El Worker respondió HTTP ${response.status}.`
+      );
     }
 
-    const iframe =
-      document.createElement("iframe");
+    const data =
+      await response.json();
 
-    iframe.hidden = true;
-    iframe.setAttribute(
-      "aria-hidden",
-      "true"
-    );
-
-    iframe.style.position = "fixed";
-    iframe.style.width = "1px";
-    iframe.style.height = "1px";
-    iframe.style.opacity = "0";
-    iframe.style.pointerEvents = "none";
-    iframe.style.border = "0";
-
-    let finished = false;
-
-    const isTrustedAppsScriptOrigin =
-      (origin) => {
-        try {
-          const url = new URL(origin);
-
-          const trustedHostname =
-            url.hostname ===
-              "script.google.com" ||
-            url.hostname.endsWith(
-              ".script.googleusercontent.com"
-            ) ||
-            url.hostname.endsWith(
-              ".scriptmac.googleusercontent.com"
-            );
-
-          return (
-            url.protocol === "https:" &&
-            trustedHostname
-          );
-        } catch (_error) {
-          return false;
-        }
-      };
-
-    const cleanup = () => {
-      if (finished) {
-        return;
-      }
-
-      finished = true;
-
-      window.clearTimeout(timeout);
-
-      window.removeEventListener(
-        "message",
-        handleInventoryMessage
+    if (
+      !data ||
+      data.ok !== true ||
+      !Array.isArray(data.productos)
+    ) {
+      throw new Error(
+        data?.detalle ||
+        data?.error ||
+        "El Worker entregó una respuesta inválida."
       );
+    }
 
-      iframe.remove();
-    };
-
-    const handleInventoryMessage =
-      (event) => {
-        const response = event.data;
-
-        if (
-          !response ||
-          typeof response !== "object" ||
-          response.tipo !==
-            "rumbo-inventario-respuesta"
-        ) {
-          return;
-        }
-
-        if (
-          !isTrustedAppsScriptOrigin(
-            event.origin
-          )
-        ) {
-          console.warn(
-            "Respuesta de inventario bloqueada:",
-            event.origin
-          );
-
-          return;
-        }
-
-      console.log(
-        "Respuesta de inventario recibida desde:",
-        event.origin
+    return data;
+  } catch (error) {
+    if (
+      error?.name ===
+      "AbortError"
+    ) {
+      throw new Error(
+        "La consulta del inventario excedió el plazo."
       );
+    }
 
-        cleanup();
-
-        if (response.ok !== true) {
-          reject(
-            new Error(
-              response.detalle ||
-              response.error ||
-              "La API no pudo leer el inventario."
-            )
-          );
-
-          return;
-        }
-
-        resolve(response);
-      };
-
-    const timeout =
-      window.setTimeout(() => {
-        cleanup();
-
-        reject(
-          new Error(
-            "La consulta del inventario tardó demasiado."
-          )
-        );
-      }, 20000);
-
-    window.addEventListener(
-      "message",
-      handleInventoryMessage
-    );
-
-    const separator =
-      INVENTORY_API_URL.includes("?")
-        ? "&"
-        : "?";
-
-    iframe.src =
-      `${INVENTORY_API_URL}` +
-      `${separator}action=productos` +
-      `&formato=iframe` +
-      `&origen=${encodeURIComponent(
-        window.location.origin
-      )}` +
-      `&_=${Date.now()}`;
-
-    iframe.addEventListener(
-      "error",
-      () => {
-        cleanup();
-
-        reject(
-          new Error(
-            "No fue posible abrir la API de inventario."
-          )
-        );
-      },
-      { once: true }
-    );
-
-    console.log(
-      "Consultando inventario mediante iframe:",
-      iframe.src
-    );
-
-    document.body.appendChild(iframe);
-  });
+    throw error;
+  } finally {
+    window.clearTimeout(timeout);
+  }
 }
 
   /* -------------------------------------------------------
