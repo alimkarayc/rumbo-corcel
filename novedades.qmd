@@ -19,7 +19,7 @@ page-layout: full
 
     <article class="novedad-card">
       <a class="novedad-card-media" href="novedad-mate-cancer.html">
-        <img src="images/novedades/mate-cancer/portada.PNG"
+        <img src="images/novedades/mate-cancer/portada.png"
              alt="Portada El mate da cáncer">
       </a>
       <div class="novedad-card-body">
@@ -37,7 +37,7 @@ page-layout: full
 
     <article class="novedad-card">
       <a class="novedad-card-media" href="novedad-calabaza-acero.html">
-        <img src="images/novedades/calabaza-acero/portada.PNG"
+        <img src="images/novedades/calabaza-acero/portada.png"
              alt="Portada Calabaza o Acero Inoxidable">
       </a>
       <div class="novedad-card-body">
@@ -55,7 +55,7 @@ page-layout: full
 
     <article class="novedad-card">
       <a class="novedad-card-media" href="novedad-mate-costumbre.html">
-        <img src="images/novedades/mate-costumbre/portada.PNG"
+        <img src="images/novedades/mate-costumbre/portada.png"
              alt="Portada Sigues tomando mate por costumbre">
       </a>
       <div class="novedad-card-body">

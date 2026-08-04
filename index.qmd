@@ -95,7 +95,7 @@ title-block-banner: false
              data-home-slide-index="1"
              aria-label="Abrir publicación sobre el mate y el cáncer">
             <img
-              src="images/novedades/mate-cancer/portada.PNG"
+              src="images/novedades/mate-cancer/portada.png"
               alt="Portada de la publicación El mate da cáncer">
             <span>Leer publicación completa →</span>
           </a>
@@ -132,7 +132,7 @@ title-block-banner: false
              data-home-slide-index="2"
              aria-label="Abrir comparación entre mate de calabaza y acero inoxidable">
             <img
-              src="images/novedades/calabaza-acero/portada.PNG"
+              src="images/novedades/calabaza-acero/portada.png"
               alt="Portada Calabaza o Acero Inoxidable">
             <span>Leer publicación completa →</span>
           </a>
@@ -169,7 +169,7 @@ title-block-banner: false
              data-home-slide-index="3"
              aria-label="Abrir publicación sobre tomar mate por costumbre">
             <img
-              src="images/novedades/mate-costumbre/portada.PNG"
+              src="images/novedades/mate-costumbre/portada.png"
               alt="Portada Sigues tomando mate por costumbre">
             <span>Leer publicación completa →</span>
           </a>
