@@ -14,7 +14,7 @@ Un proyecto nacido de una pasión compartida, construido con dedicación y acomp
 
 ::::: nosotros-bloque
 ::: nosotros-imagen
-![](images/nosotros-1.JPEG){.nosotros-foto}
+![](images/nosotros-1.jpeg){.nosotros-foto}
 :::
 
 ::: nosotros-texto
@@ -44,7 +44,7 @@ Soñamos con que este proyecto crezca, perdure en el tiempo y algún día pueda 
 :::
 
 ::: nosotros-imagen
-![](images/nosotros-2.JPEG){.nosotros-foto loading="lazy"}
+![](images/nosotros-2.jpeg){.nosotros-foto loading="lazy"}
 :::
 :::::
 
