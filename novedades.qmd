@@ -1,0 +1,77 @@
+---
+title: "Novedades"
+page-layout: full
+---
+
+```{=html}
+<main class="novedades-page">
+
+  <header class="novedades-header">
+    <p class="section-eyebrow">DESCUBRE · APRENDE · COMPARTE</p>
+    <h1>Novedades de Rumbo Corcel</h1>
+    <p>
+      Guías, mitos, comparaciones, beneficios y campañas para disfrutar
+      mejor cada mate y conocer todo lo nuevo de nuestro proyecto.
+    </p>
+  </header>
+
+  <section class="novedades-grid" aria-label="Publicaciones disponibles">
+
+    <article class="novedad-card">
+      <a class="novedad-card-media" href="novedad-mate-cancer.html">
+        <img src="images/novedades/mate-cancer/portada.PNG"
+             alt="Portada El mate da cáncer">
+      </a>
+      <div class="novedad-card-body">
+        <span class="novedad-card-label">Mitos del mate</span>
+        <h2>¿El mate da cáncer?</h2>
+        <p>
+          Una guía visual para entender la importancia de la temperatura y
+          el contexto detrás de una de las dudas más repetidas sobre el mate.
+        </p>
+        <a class="novedad-card-link" href="novedad-mate-cancer.html">
+          Abrir publicación →
+        </a>
+      </div>
+    </article>
+
+    <article class="novedad-card">
+      <a class="novedad-card-media" href="novedad-calabaza-acero.html">
+        <img src="images/novedades/calabaza-acero/portada.PNG"
+             alt="Portada Calabaza o Acero Inoxidable">
+      </a>
+      <div class="novedad-card-body">
+        <span class="novedad-card-label">Guía matera</span>
+        <h2>Calabaza o acero inoxidable</h2>
+        <p>
+          Una comparación directa entre tradición, sabor, resistencia,
+          limpieza y practicidad para ayudarte a elegir.
+        </p>
+        <a class="novedad-card-link" href="novedad-calabaza-acero.html">
+          Ver comparación →
+        </a>
+      </div>
+    </article>
+
+    <article class="novedad-card">
+      <a class="novedad-card-media" href="novedad-mate-costumbre.html">
+        <img src="images/novedades/mate-costumbre/portada.PNG"
+             alt="Portada Sigues tomando mate por costumbre">
+      </a>
+      <div class="novedad-card-body">
+        <span class="novedad-card-label">Ritual matero</span>
+        <h2>¿Tomas mate por costumbre?</h2>
+        <p>
+          Una publicación para recorrer algunas de las razones que hacen del
+          mate una pausa que muchos eligen conservar.
+        </p>
+        <a class="novedad-card-link" href="novedad-mate-costumbre.html">
+          Descubrir más →
+        </a>
+      </div>
+    </article>
+
+  </section>
+
+</main>
+```

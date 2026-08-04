@@ -1,0 +1,76 @@
+---
+title: "¿El mate da cáncer?"
+page-layout: full
+---
+
+```{=html}
+<main class="story-page">
+
+  <header class="story-header">
+    <a class="story-back" href="index.html?slide=1#inicio">← Volver al carrusel</a>
+    <p class="section-eyebrow">MITOS DEL MATE · TEMPERATURA</p>
+    <h1>¿El mate da cáncer?</h1>
+    <p>Recorre la publicación completa sobre el origen del mito, la temperatura del agua y el consumo del mate.</p>
+  </header>
+
+  <section class="story-gallery" data-story-gallery tabindex="0" aria-label="Galería de la publicación ¿El mate da cáncer?">
+
+    <button class="story-gallery-arrow story-gallery-prev" type="button" aria-label="Ver imagen anterior">‹</button>
+
+    <div class="story-gallery-viewport">
+      <div class="story-gallery-track" data-story-track>
+        <figure class="story-gallery-slide" data-story-slide aria-label="Imagen 1 de 8">
+          <img src="images/novedades/mate-cancer/portada.PNG" alt="¿El mate da cáncer?, imagen 1 de 8">
+        </figure>
+        <figure class="story-gallery-slide" data-story-slide aria-label="Imagen 2 de 8">
+          <img src="images/novedades/mate-cancer/01.PNG" alt="¿El mate da cáncer?, imagen 2 de 8" loading="lazy">
+        </figure>
+        <figure class="story-gallery-slide" data-story-slide aria-label="Imagen 3 de 8">
+          <img src="images/novedades/mate-cancer/02.PNG" alt="¿El mate da cáncer?, imagen 3 de 8" loading="lazy">
+        </figure>
+        <figure class="story-gallery-slide" data-story-slide aria-label="Imagen 4 de 8">
+          <img src="images/novedades/mate-cancer/03.PNG" alt="¿El mate da cáncer?, imagen 4 de 8" loading="lazy">
+        </figure>
+        <figure class="story-gallery-slide" data-story-slide aria-label="Imagen 5 de 8">
+          <img src="images/novedades/mate-cancer/04.PNG" alt="¿El mate da cáncer?, imagen 5 de 8" loading="lazy">
+        </figure>
+        <figure class="story-gallery-slide" data-story-slide aria-label="Imagen 6 de 8">
+          <img src="images/novedades/mate-cancer/05.PNG" alt="¿El mate da cáncer?, imagen 6 de 8" loading="lazy">
+        </figure>
+        <figure class="story-gallery-slide" data-story-slide aria-label="Imagen 7 de 8">
+          <img src="images/novedades/mate-cancer/06.PNG" alt="¿El mate da cáncer?, imagen 7 de 8" loading="lazy">
+        </figure>
+        <figure class="story-gallery-slide" data-story-slide aria-label="Imagen 8 de 8">
+          <img src="images/novedades/mate-cancer/07.PNG" alt="¿El mate da cáncer?, imagen 8 de 8" loading="lazy">
+        </figure>
+      </div>
+    </div>
+
+    <button class="story-gallery-arrow story-gallery-next" type="button" aria-label="Ver imagen siguiente">›</button>
+
+    <div class="story-gallery-footer">
+      <div class="story-gallery-dots" role="tablist" aria-label="Elegir imagen">
+        <button type="button" data-story-dot="0" aria-label="Ver imagen 1" aria-selected="true"></button>
+        <button type="button" data-story-dot="1" aria-label="Ver imagen 2" aria-selected="false"></button>
+        <button type="button" data-story-dot="2" aria-label="Ver imagen 3" aria-selected="false"></button>
+        <button type="button" data-story-dot="3" aria-label="Ver imagen 4" aria-selected="false"></button>
+        <button type="button" data-story-dot="4" aria-label="Ver imagen 5" aria-selected="false"></button>
+        <button type="button" data-story-dot="5" aria-label="Ver imagen 6" aria-selected="false"></button>
+        <button type="button" data-story-dot="6" aria-label="Ver imagen 7" aria-selected="false"></button>
+        <button type="button" data-story-dot="7" aria-label="Ver imagen 8" aria-selected="false"></button>
+      </div>
+      <div class="story-gallery-count" aria-live="polite">
+        <span data-story-current>01</span> / 08
+      </div>
+    </div>
+
+  </section>
+
+  <div class="story-actions">
+    <a href="novedades.html" class="button button-secondary">Ver más novedades</a>
+    <a href="https://www.instagram.com/p/DbbxBI0ltct/" class="button button-primary" target="_blank" rel="noopener noreferrer">Ver en Instagram</a>
+  </div>
+
+  <p class="story-note">Contenido informativo. Ante dudas de salud personales, consulta a un profesional sanitario.</p>
+</main>
+```

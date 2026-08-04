@@ -1,0 +1,55 @@
+<!-- Google Analytics 4 - Rumbo Corcel -->
+  <script>
+  (function () {
+    const productionHosts = new Set([
+      "rumbocorcel.cl",
+      "www.rumbocorcel.cl"
+    ]);
+    
+    /*
+      * No registrar las visitas del preview local.
+    */
+      if (
+        !productionHosts.has(
+          window.location.hostname
+        )
+      ) {
+        return;
+      }
+    
+    const measurementId =
+      "G-YDFK9DP16V";
+    
+    window.dataLayer =
+      window.dataLayer || [];
+    
+    window.gtag = function () {
+      window.dataLayer.push(arguments);
+    };
+    
+    window.gtag(
+      "js",
+      new Date()
+    );
+    
+    window.gtag(
+      "config",
+      measurementId
+    );
+    
+    const analyticsScript =
+      document.createElement("script");
+    
+    analyticsScript.async = true;
+    
+    analyticsScript.src =
+      "https://www.googletagmanager.com/gtag/js?id=" +
+      encodeURIComponent(
+        measurementId
+      );
+    
+    document.head.appendChild(
+      analyticsScript
+    );
+  })();
+</script>

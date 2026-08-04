@@ -671,3 +671,247 @@ function updateStockStatus(
   initializeInventory();
 
 });
+
+/* =========================================================
+   CARRUSEL PRINCIPAL Y GALERÍAS DE NOVEDADES
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const homeCarousel = document.querySelector("[data-home-carousel]");
+
+  if (homeCarousel) {
+    const track = homeCarousel.querySelector("[data-home-carousel-track]");
+    const slides = [...homeCarousel.querySelectorAll("[data-home-slide]")];
+    const dots = [...homeCarousel.querySelectorAll("[data-home-dot]")];
+    const previousButton = homeCarousel.querySelector(".home-carousel-prev");
+    const nextButton = homeCarousel.querySelector(".home-carousel-next");
+    const currentLabel = homeCarousel.querySelector("[data-home-current]");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    let currentIndex = 0;
+    let autoPlayTimer = null;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    const requestedSlide = Number.parseInt(
+      new URLSearchParams(window.location.search).get("slide"),
+      10
+    );
+
+    if (Number.isInteger(requestedSlide) && requestedSlide >= 0 && requestedSlide < slides.length) {
+      currentIndex = requestedSlide;
+
+      const cleanUrl = `${window.location.pathname}${window.location.hash || "#inicio"}`;
+      window.history.replaceState({}, "", cleanUrl);
+    }
+
+    const updateCarousel = (index, { userInitiated = false } = {}) => {
+      currentIndex = (index + slides.length) % slides.length;
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      slides.forEach((slide, slideIndex) => {
+        const isActive = slideIndex === currentIndex;
+        slide.setAttribute("aria-hidden", String(!isActive));
+        slide.toggleAttribute("inert", !isActive);
+      });
+
+      dots.forEach((dot, dotIndex) => {
+        dot.setAttribute("aria-selected", String(dotIndex === currentIndex));
+      });
+
+      if (currentLabel) {
+        currentLabel.textContent = String(currentIndex + 1).padStart(2, "0");
+      }
+
+      sessionStorage.setItem("rumboHomeCarouselIndex", String(currentIndex));
+
+      if (userInitiated) {
+        restartAutoPlay();
+      }
+    };
+
+    const stopAutoPlay = () => {
+      if (autoPlayTimer !== null) {
+        window.clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+    };
+
+    const startAutoPlay = () => {
+      stopAutoPlay();
+
+      if (reducedMotion.matches || document.hidden) {
+        return;
+      }
+
+      autoPlayTimer = window.setInterval(() => {
+        updateCarousel(currentIndex + 1);
+      }, 9000);
+    };
+
+    const restartAutoPlay = () => {
+      stopAutoPlay();
+      startAutoPlay();
+    };
+
+    previousButton?.addEventListener("click", () => {
+      updateCarousel(currentIndex - 1, { userInitiated: true });
+    });
+
+    nextButton?.addEventListener("click", () => {
+      updateCarousel(currentIndex + 1, { userInitiated: true });
+    });
+
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        updateCarousel(Number(dot.dataset.homeDot), { userInitiated: true });
+      });
+    });
+
+    homeCarousel.addEventListener("mouseenter", stopAutoPlay);
+    homeCarousel.addEventListener("mouseleave", startAutoPlay);
+    homeCarousel.addEventListener("focusin", stopAutoPlay);
+    homeCarousel.addEventListener("focusout", startAutoPlay);
+
+    homeCarousel.addEventListener("touchstart", (event) => {
+      const touch = event.changedTouches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      stopAutoPlay();
+    }, { passive: true });
+
+    homeCarousel.addEventListener("touchend", (event) => {
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - touchStartX;
+      const deltaY = touch.clientY - touchStartY;
+
+      if (Math.abs(deltaX) > 45 && Math.abs(deltaX) > Math.abs(deltaY)) {
+        updateCarousel(
+          deltaX < 0 ? currentIndex + 1 : currentIndex - 1,
+          { userInitiated: true }
+        );
+      } else {
+        startAutoPlay();
+      }
+    }, { passive: true });
+
+    homeCarousel.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        updateCarousel(currentIndex - 1, { userInitiated: true });
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        updateCarousel(currentIndex + 1, { userInitiated: true });
+      }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    });
+
+    if (typeof reducedMotion.addEventListener === "function") {
+      reducedMotion.addEventListener("change", startAutoPlay);
+    }
+
+    document.querySelectorAll("[data-novedad-open]").forEach((link) => {
+      link.addEventListener("click", () => {
+        const index = Number(link.dataset.homeSlideIndex);
+        if (Number.isInteger(index)) {
+          sessionStorage.setItem("rumboHomeCarouselIndex", String(index));
+        }
+
+        if (typeof window.gtag === "function") {
+          window.gtag("event", "abrir_novedad", {
+            novedad: link.getAttribute("href") || "",
+            slide: index
+          });
+        }
+      });
+    });
+
+    updateCarousel(currentIndex);
+    startAutoPlay();
+  }
+
+
+  document.querySelectorAll("[data-story-gallery]").forEach((gallery) => {
+    const track = gallery.querySelector("[data-story-track]");
+    const slides = [...gallery.querySelectorAll("[data-story-slide]")];
+    const previousButton = gallery.querySelector(".story-gallery-prev");
+    const nextButton = gallery.querySelector(".story-gallery-next");
+    const dots = [...gallery.querySelectorAll("[data-story-dot]")];
+    const currentLabel = gallery.querySelector("[data-story-current]");
+
+    if (!track || slides.length === 0) {
+      return;
+    }
+
+    let currentIndex = 0;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    const updateGallery = (index) => {
+      currentIndex = (index + slides.length) % slides.length;
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      slides.forEach((slide, slideIndex) => {
+        slide.setAttribute("aria-hidden", String(slideIndex !== currentIndex));
+      });
+
+      dots.forEach((dot, dotIndex) => {
+        dot.setAttribute("aria-selected", String(dotIndex === currentIndex));
+      });
+
+      if (currentLabel) {
+        currentLabel.textContent = String(currentIndex + 1).padStart(2, "0");
+      }
+    };
+
+    previousButton?.addEventListener("click", () => updateGallery(currentIndex - 1));
+    nextButton?.addEventListener("click", () => updateGallery(currentIndex + 1));
+
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        updateGallery(Number(dot.dataset.storyDot));
+      });
+    });
+
+    gallery.addEventListener("touchstart", (event) => {
+      const touch = event.changedTouches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+    }, { passive: true });
+
+    gallery.addEventListener("touchend", (event) => {
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - touchStartX;
+      const deltaY = touch.clientY - touchStartY;
+
+      if (Math.abs(deltaX) > 45 && Math.abs(deltaX) > Math.abs(deltaY)) {
+        updateGallery(deltaX < 0 ? currentIndex + 1 : currentIndex - 1);
+      }
+    }, { passive: true });
+
+    gallery.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        updateGallery(currentIndex - 1);
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        updateGallery(currentIndex + 1);
+      }
+    });
+
+    updateGallery(0);
+  });
+});
+

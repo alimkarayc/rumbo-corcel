@@ -12,7 +12,7 @@ project:
 
 website:
   title: "Rumbo Corcel"
-  favicon: images/logo.jpeg
+  favicon: images/logo.PNG
 
   navbar:
     background: "#22302A"
@@ -26,6 +26,9 @@ website:
       - href: catalogo.qmd
         text: Catálogo
 
+      - href: novedades.qmd
+        text: Novedades
+
       - href: nosotros.qmd
         text: Nosotros
 
@@ -38,10 +41,20 @@ website:
       - icon: instagram
         href: https://www.instagram.com/rumbocorcel.mate
         aria-label: Instagram
+        target: _blank
+        rel: noopener noreferrer
 
       - icon: facebook
         href: https://www.facebook.com/profile.php?id=61586241693849
         aria-label: Facebook
+        target: _blank
+        rel: noopener noreferrer
+        
+      - icon: tiktok
+        href: https://www.tiktok.com/@rumbo.corcel?_r=1&_t=ZS-98ajOG4A2y7
+        aria-label: TikTok
+        target: _blank
+        rel: noopener noreferrer
 
   page-footer:
     background: "#22302A"
@@ -74,5 +87,5 @@ format:
     smooth-scroll: true
     anchor-sections: false
 
-    include-after-body:
-      - includes/after-body.html
+    include-in-header: includes/analytics.html
+    include-after-body: includes/after-body.html

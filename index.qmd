@@ -5,59 +5,205 @@ title-block-banner: false
 ---
 
 ```{=html}
-<section class="hero-section" id="inicio">
+<section class="hero-section home-carousel" id="inicio" data-home-carousel aria-roledescription="carrusel" aria-label="Portada y novedades de Rumbo Corcel">
 
-  <div class="hero-background" aria-hidden="true"></div>
-  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="home-carousel-viewport">
+    <div class="home-carousel-track" data-home-carousel-track>
 
-  <div class="hero-inner">
-    <div class="hero-content">
+      <article class="home-slide home-slide-cover" data-home-slide aria-label="1 de 4">
 
-      <p class="hero-eyebrow">EN CADA CAMINO</p>
+        <div class="hero-background" aria-hidden="true"></div>
+        <div class="hero-overlay" aria-hidden="true"></div>
 
-      <h1>
-        Tradición matera<br>
-        con alma del sur
-      </h1>
+        <div class="hero-inner">
+          <div class="hero-content">
 
-      <p class="hero-description">
-        Mates, bombillas, yerba, kits y materas para acompañar cada ritual.
-      </p>
+            <p class="hero-eyebrow">EN CADA CAMINO</p>
 
-      <div class="hero-buttons">
+            <h1>
+              Tradición matera<br>
+              con alma del sur
+            </h1>
+
+            <p class="hero-description">
+              Mates, bombillas, yerba, kits y materas para acompañar cada ritual.
+            </p>
+
+            <div class="hero-buttons">
+
+              <a href="#productos"
+                 class="button button-primary">
+                Ver los más elegidos
+              </a>
+
+              <a href="https://wa.me/message/5PEO6Z2GUZLNP1"
+                 class="button button-secondary"
+                 target="_blank"
+                 rel="noopener noreferrer">
+                Hablar por WhatsApp
+              </a>
+
+            </div>
+
+            <div class="hero-shipping">
+              <span class="shipping-icon">✦</span>
+
+              <div>
+                <strong>Envíos a todo Chile</strong>
+                <small>Retiro en Quilicura o envío por Blue Express</small>
+              </div>
+            </div>
+
+          </div>
+        </div>
 
         <a href="#productos"
-           class="button button-primary">
-          Ver los más elegidos
+           class="hero-scroll"
+           aria-label="Bajar a productos destacados">
+          <span>Descubrir</span>
+          <strong>↓</strong>
         </a>
 
-        <a href="https://wa.me/message/5PEO6Z2GUZLNP1"
-           class="button button-secondary"
-           target="_blank"
-           rel="noopener noreferrer">
-          Hablar por WhatsApp
-        </a>
+      </article>
 
-      </div>
+      <article class="home-slide home-slide-novedad" data-home-slide aria-label="2 de 4">
+        <div class="home-novedad-inner">
 
-      <div class="hero-shipping">
-        <span class="shipping-icon">✦</span>
+          <div class="home-novedad-copy">
+            <p class="home-novedad-kicker">MITOS DEL MATE</p>
+            <h2>¿El mate da cáncer?</h2>
+            <p>
+              La respuesta no está en la yerba, sino en cómo entendemos la temperatura.
+              Revisa esta guía visual y conoce el contexto detrás del mito.
+            </p>
+            <div class="home-novedad-actions">
+              <a href="novedad-mate-cancer.html"
+                 class="button button-primary"
+                 data-novedad-open
+                 data-home-slide-index="1">
+                Abrir publicación
+              </a>
+              <a href="novedades.html" class="home-novedad-secondary">
+                Ver todas las novedades
+              </a>
+            </div>
+          </div>
 
-        <div>
-          <strong>Envíos a todo Chile</strong>
-          <small>Retiro en Quilicura o envío por Blue Express</small>
+          <a href="novedad-mate-cancer.html"
+             class="home-novedad-cover"
+             data-novedad-open
+             data-home-slide-index="1"
+             aria-label="Abrir publicación sobre el mate y el cáncer">
+            <img
+              src="images/novedades/mate-cancer/portada.PNG"
+              alt="Portada de la publicación El mate da cáncer">
+            <span>Leer publicación completa →</span>
+          </a>
+
         </div>
-      </div>
+      </article>
+
+      <article class="home-slide home-slide-novedad" data-home-slide aria-label="3 de 4">
+        <div class="home-novedad-inner">
+
+          <div class="home-novedad-copy">
+            <p class="home-novedad-kicker">GUÍA MATERA</p>
+            <h2>¿Calabaza o acero inoxidable?</h2>
+            <p>
+              Tradición, sabor, practicidad y limpieza. Compara ambos materiales y
+              descubre cuál se adapta mejor a tu forma de tomar mate.
+            </p>
+            <div class="home-novedad-actions">
+              <a href="novedad-calabaza-acero.html"
+                 class="button button-primary"
+                 data-novedad-open
+                 data-home-slide-index="2">
+                Ver comparación
+              </a>
+              <a href="novedades.html" class="home-novedad-secondary">
+                Ver todas las novedades
+              </a>
+            </div>
+          </div>
+
+          <a href="novedad-calabaza-acero.html"
+             class="home-novedad-cover"
+             data-novedad-open
+             data-home-slide-index="2"
+             aria-label="Abrir comparación entre mate de calabaza y acero inoxidable">
+            <img
+              src="images/novedades/calabaza-acero/portada.PNG"
+              alt="Portada Calabaza o Acero Inoxidable">
+            <span>Leer publicación completa →</span>
+          </a>
+
+        </div>
+      </article>
+
+      <article class="home-slide home-slide-novedad" data-home-slide aria-label="4 de 4">
+        <div class="home-novedad-inner">
+
+          <div class="home-novedad-copy">
+            <p class="home-novedad-kicker">RITUAL MATERO</p>
+            <h2>¿Sigues tomando mate por costumbre?</h2>
+            <p>
+              Hay rituales que permanecen porque se sienten bien. Descubre algunas
+              razones para seguir haciendo una pausa con tu mate.
+            </p>
+            <div class="home-novedad-actions">
+              <a href="novedad-mate-costumbre.html"
+                 class="button button-primary"
+                 data-novedad-open
+                 data-home-slide-index="3">
+                Descubrir razones
+              </a>
+              <a href="novedades.html" class="home-novedad-secondary">
+                Ver todas las novedades
+              </a>
+            </div>
+          </div>
+
+          <a href="novedad-mate-costumbre.html"
+             class="home-novedad-cover"
+             data-novedad-open
+             data-home-slide-index="3"
+             aria-label="Abrir publicación sobre tomar mate por costumbre">
+            <img
+              src="images/novedades/mate-costumbre/portada.PNG"
+              alt="Portada Sigues tomando mate por costumbre">
+            <span>Leer publicación completa →</span>
+          </a>
+
+        </div>
+      </article>
 
     </div>
   </div>
 
-  <a href="#productos"
-     class="hero-scroll"
-     aria-label="Bajar a productos destacados">
-    <span>Descubrir</span>
-    <strong>↓</strong>
-  </a>
+  <button class="home-carousel-arrow home-carousel-prev"
+          type="button"
+          aria-label="Ver elemento anterior">
+    ‹
+  </button>
+
+  <button class="home-carousel-arrow home-carousel-next"
+          type="button"
+          aria-label="Ver elemento siguiente">
+    ›
+  </button>
+
+  <div class="home-carousel-dots" role="tablist" aria-label="Seleccionar contenido">
+    <button type="button" data-home-dot="0" aria-label="Ver portada" aria-selected="true"></button>
+    <button type="button" data-home-dot="1" aria-label="Ver El mate da cáncer" aria-selected="false"></button>
+    <button type="button" data-home-dot="2" aria-label="Ver Calabaza o acero" aria-selected="false"></button>
+    <button type="button" data-home-dot="3" aria-label="Ver Mate por costumbre" aria-selected="false"></button>
+  </div>
+
+  <div class="home-carousel-counter" aria-live="polite">
+    <span data-home-current>01</span>
+    <span aria-hidden="true">/</span>
+    <span>04</span>
+  </div>
 
 </section>
 
